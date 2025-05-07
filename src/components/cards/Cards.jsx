@@ -1,7 +1,6 @@
 import React from 'react';
 
-const Cards = ({ books, deleteBook }) => {
-
+const Cards = ({ books, deleteBook, editBook }) => {
   return (
     <div className="mt-[100px] p-[50px] grid grid-cols-4 gap-[30px]">
       {books.map((book, index) => (
@@ -14,7 +13,7 @@ const Cards = ({ books, deleteBook }) => {
           <p className="text-gray-700 mb-1"><strong>Stock:</strong> {book.stock}</p>
           <p className="text-gray-700 mb-1"><strong>Genre:</strong> {book.genre}</p>
           <div className='flex flex-row justify-end gap-4'>
-            <button className='w-[20%] bg-gray-300 hover:bg-gray-400 transition'>Edit</button>
+            <button onClick={() => editBook(index)} className='w-[20%] bg-gray-300 hover:bg-gray-400 transition'>Edit</button>
             <button onClick={() => deleteBook(index)} className='w-[20%] bg-gray-300 hover:bg-gray-400 transition'>Delete</button>
           </div>
         </div>

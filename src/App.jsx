@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+""// App.js
+import { useState } from 'react';
 import Book from './components/book/Book';
 import Cards from './components/cards/Cards';
 
@@ -8,10 +9,21 @@ function App() {
     return savedBooks ? JSON.parse(savedBooks) : [];
   });
 
+  const [editableBook, setEditableBook] = useState(null);
+
   const addBook = (book) => {
-    const updatedBooks = [...books, book];
-    setBooks(updatedBooks);
-    localStorage.setItem('books', JSON.stringify(updatedBooks)); 
+    if (editableBook !== null) {
+      const updatedBooks = books.map((item, index) =>
+        index === editableBook ? book : item
+      );
+      setBooks(updatedBooks);
+      localStorage.setItem('books', JSON.stringify(updatedBooks));
+      setEditableBook(null);
+    } else {
+      const updatedBooks = [...books, book];
+      setBooks(updatedBooks);
+      localStorage.setItem('books', JSON.stringify(updatedBooks));
+    }
   };
 
   const deleteBook = (index) => {
@@ -20,12 +32,17 @@ function App() {
     localStorage.setItem('books', JSON.stringify(updatedBooks)); 
   };
 
+  const editBook = (index) => {
+    setEditableBook(index);
+  };
+
   return (
     <>
-      <Book addBook={addBook} />
-      <Cards books={books} deleteBook={deleteBook} />
+      <Book addBook={addBook} editableBook={editableBook !== null ? books[editableBook] : null} />
+      <Cards books={books} deleteBook={deleteBook} editBook={editBook} />
     </>
   );
 }
 
 export default App;
+
